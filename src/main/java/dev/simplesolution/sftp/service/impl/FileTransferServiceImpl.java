@@ -26,6 +26,9 @@ public class FileTransferServiceImpl implements FileTransferService {
     @Value("${sftp.password}")
     private String password;
 
+    @Value("${sftp.timeout}")
+    private Integer timeout;
+
     @Override
     public boolean uploadFile(String localFilePath, String remoteFilePath) {
         ChannelSftp channelSftp = createChannelSftp();
@@ -63,10 +66,14 @@ public class FileTransferServiceImpl implements FileTransferService {
     private ChannelSftp createChannelSftp() {
         try {
             JSch jSch = new JSch();
-            Session session = jSch.getSession(username, host);
+            Session session = jSch.getSession(username, host, 22222);
             session.setConfig("StrictHostKeyChecking", "no");
+            session.setConfig("PreferredAuthentications", "password");
             session.setPassword(password);
+            session.connect(timeout);
+
             Channel channel = session.openChannel("sftp");
+            channel.connect();
             return (ChannelSftp) channel;
         } catch(JSchException ex) {
             logger.error("Create ChannelSftp error", ex);

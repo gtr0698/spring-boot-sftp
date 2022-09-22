@@ -1,6 +1,5 @@
-package dev.simplesolution.sftp;
+package dev.simplesolution.sftp.service;
 
-import dev.simplesolution.sftp.service.FileTransferService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,9 @@ public class TestSftpFileTransfer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        logger.info("Start download file");
-        boolean isDownloaded = fileTransferService.downloadFile("D:\\Downloads\\arquivo", "/readme.txt");
-        logger.info("Download result: " + String.valueOf(isDownloaded));
 
         logger.info("Start upload file");
-        boolean isUploaded = fileTransferService.uploadFile("/home/simplesolution/readme.txt", "/readme2.txt");
+        boolean isUploaded = fileTransferService.uploadFile("C:\\Users\\guilh\\Downloads\\teste.txt", "/uec.mrooms.net/conduit/teste.txt");
         logger.info("Upload result: " + String.valueOf(isUploaded));
     }
 }
